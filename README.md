@@ -1,4 +1,4 @@
-# MRam usage stat for HTTPD, MYSQL, NGINX, PHP, Memcached, etc
+# Ram usage stats
 Show ram usage for httpd services
 
 # Install
