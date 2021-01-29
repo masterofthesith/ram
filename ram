@@ -1,0 +1,37 @@
+#!/bin/sh
+
+ram=$(ps -C memcached -o rss | grep -v RSS | paste -s -d+ | bc)
+phpstat=$(ps -C php-fpm -o rss | grep -v RSS | paste -s -d+ | bc)
+phpcgistat=$(ps -C php-cgi -o rss | grep -v RSS | paste -s -d+ | bc)
+mysqlstat=$(ps -C mysqld -o rss | grep -v RSS | paste -s -d+ | bc)
+apachestat=$(ps -C httpd -o rss | grep -v RSS | paste -s -d+ | bc)
+nginxstat=$(ps -C nginx -o rss | grep -v RSS | paste -s -d+ | bc)
+printf "+++++++++++++++++++++++\n"
+total="0"
+if [ ! -z "$ram" ]; then
+        printf "+ %-10s %7sM +\n" "Memcached" $(( ${ram} / 1024 ))
+        total=$(( ${total} + ${ram} ))
+fi
+if [ ! -z "$phpstat" ]; then
+        printf "+ %-10s %7sM +\n" "PHP-FPM" $(( ${phpstat} / 1024 ))
+        total=$(( ${total} + ${phpstat} ))
+fi
+if [ ! -z "$phpcgistat" ]; then
+        printf "+ %-10s %7sM +\n" "PHP-CGI" $(( ${phpcgistat} / 1024 ))
+        total=$(( ${total} + ${phpcgistat} ))
+fi
+if [ ! -z "$mysqlstat" ]; then
+        printf "+ %-10s %7sM +\n" "MYSQL" $(( ${mysqlstat} / 1024 ))
+        total=$(( ${total} + ${mysqlstat} ))
+fi
+if [ ! -z "$apachestat" ]; then
+        printf "+ %-10s %7sM +\n" "HTTPD" $(( ${apachestat} / 1024 ))
+        total=$(( ${total} + ${apachestat} ))
+fi
+if [ ! -z "$nginxstat" ]; then
+        printf "+ %-10s %7sM +\n" "NGINX" $(( ${nginxstat} / 1024 ))
+        total=$(( ${total} + ${nginxstat} ))
+fi
+printf "+++++++++++++++++++++++\n"
+printf "+ %-10s %7sG +\n" "TOPLAM" $(( ${total} / (1024*1024) ))
+printf "+++++++++++++++++++++++\n"
