@@ -33,5 +33,5 @@ if [ ! -z "$nginxstat" ]; then
         total=$(( ${total} + ${nginxstat} ))
 fi
 printf "+++++++++++++++++++++++\n"
-printf "+ %-10s %7sG +\n" "TOPLAM" $(( ${total} / (1024*1024) ))
+printf "+ %-10s %7sG +\n" "TOTAL" $(( ${total} / (1024*1024) ))
 printf "+++++++++++++++++++++++\n"
